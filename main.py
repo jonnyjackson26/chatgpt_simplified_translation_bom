@@ -1,4 +1,5 @@
 import os
+import time
 from openai import OpenAI
 from key import api_key
 
@@ -12,15 +13,13 @@ def chat_gpt2(prompt):
     return response.choices[0].message.content.strip()
 
 def chat_gpt(lines):
-    prompt="I am going to give you verses of a chapter in the book of mormon. I need you to give me back the list, but have each verse translated or rephrased to be easier to understand. It is important you keep the same order and number of lines. Do not give me numbered lists. Do not include any friendly message like 'here you go:', just start your response with the translation of the first line: "+"\n".join(lines)
+    prompt="I am going to give you verses of a chapter in the book of mormon. I need you to give me back the list, but have each verse translated or rephrased in 'southern drawl' (meaning with southern slang and a relaxed tone). It is important you keep the same order and number of lines. Do not give me numbered lists. Do not include any friendly message like 'here you go:', just start your response with the translation of the first line: "+"\n".join(lines)
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}]
     )
     r=response.choices[0].message.content
     r=r.split("\n")
-    print("response:\n\n\n")
-    print(r)
     r = [item for item in r if item != ''] #remove '' in list
     return r #[1:] #get rid of the first line (chat gpt yapping)
 
@@ -41,8 +40,9 @@ def main():
                 lines = file.readlines()
 
             translated_lines = chat_gpt(lines) # Translate lines using ChatGPT
+            print(f"finished {book} {chapter}")
 
-            output_dir = f'bom-simplified/{book}'
+            output_dir = f'bom-southern/{book}'
             os.makedirs(output_dir, exist_ok=True)
 
             # Write translated_lines to the new file
@@ -51,5 +51,7 @@ def main():
                 for line in translated_lines:
                     file.write(line + '\n')
 
-
+start_time=time.time()
 main()
+end_time=time.time()
+print(f"execution time: f{end_time-start_time}")
