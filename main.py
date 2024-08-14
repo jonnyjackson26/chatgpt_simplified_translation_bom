@@ -51,24 +51,5 @@ def main():
                 for line in translated_lines:
                     file.write(line + '\n')
 
-book="3-nephi"
-chapter="11"
 
-path=f'bom-english/{book}/{chapter}.txt'
-#write translated_lines to 'bom-simplified/{book}/{chapter}.txt
-with open(path, 'r') as file:
-    lines = file.readlines()
-
-translated_lines = chat_gpt(lines) # Translate lines using ChatGPT
-
-output_dir = f'bom-simplified/{book}'
-os.makedirs(output_dir, exist_ok=True)
-
-# Write translated_lines to the new file
-output_path = f'{output_dir}/{chapter}.txt'
-with open(output_path, 'w') as file:
-    for line in translated_lines:
-        file.write(line + '\n')
-
-#main()
-#print(chat_gpt("Tell me a joke about programming"))
+main()
