@@ -13,7 +13,7 @@ def chat_gpt2(prompt):
     return response.choices[0].message.content.strip()
 
 def chat_gpt(lines):
-    prompt="I am going to give you verses of a chapter in the book of mormon. I need you to give me back the list, but have each verse translated or rephrased in 'southern drawl' (meaning with southern slang and a relaxed tone). It is important you keep the same order and number of lines. Do not give me numbered lists. Do not include any friendly message like 'here you go:', just start your response with the translation of the first line: "+"\n".join(lines)
+    prompt="I am going to give you verses of a chapter in the book of mormon. I need you to give me back the list, but have each verse translated or rephrased in 'western lingo' (meaning with cowboy slang and fronteir expressions). It is important you keep the same order and number of lines. Do not give me numbered lists. Do not include any friendly message like 'here you go:', just start your response with the translation of the first line: "+"\n".join(lines)
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}]
@@ -42,7 +42,7 @@ def main():
             translated_lines = chat_gpt(lines) # Translate lines using ChatGPT
             print(f"finished {book} {chapter}")
 
-            output_dir = f'bom-southern/{book}'
+            output_dir = f'bom-western/{book}'
             os.makedirs(output_dir, exist_ok=True)
 
             # Write translated_lines to the new file
